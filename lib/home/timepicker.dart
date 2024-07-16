@@ -52,21 +52,6 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
     }
   }
 
-  // Future<void> _selectTime() async {
-  //   final TimeOfDay? picked = await showTimePicker(
-  //     context: context,
-  //     initialTime: _selectedTime,
-  //     barrierColor: Colors.greenAccent
-  //   );
-  //
-  //   if (picked != null && picked != _selectedTime) {
-  //     setState(() {
-  //       _selectedTime = picked;
-  //       widget.onTimeSelected(_selectedTime);
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -5,7 +5,7 @@ import 'package:hitchify/core/app_export.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:hitchify/validations.dart';
+import 'package:hitchify/global/validations.dart';
 import 'package:hitchify/widgets/custom_elevated_button.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -28,7 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _pickImage(ImageSource source) async {
     final imagePicker = ImagePicker();
     try {
-      final pickedFile = await imagePicker.pickImage(source: ImageSource.camera);
+      final pickedFile =
+          await imagePicker.pickImage(source: ImageSource.camera);
       setState(() {
         _imageFile = pickedFile != null ? File(pickedFile.path) : null;
       });
@@ -46,22 +47,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _imagePath = null; // Assuming imageUrl is a variable storing the image URL
     // Clear other form fields here
   }
+
   void _saveDataToFirebase() async {
     if (_formKey.currentState!.validate()) {
       try {
         User? currentUser = FirebaseAuth.instance.currentUser;
         String? userId = currentUser?.uid;
+        String? phoneNumber = FirebaseAuth.instance.currentUser?.phoneNumber;
 
         // Upload the image to Firebase Storage
         String imageUrl = await _uploadImageToFirebaseStorage();
 
         // Save data, including the image URL, to Firestore
         await FirebaseFirestore.instance.collection('users').doc(userId).set({
+          'phoneNumber': phoneNumber,
           'displayName': nameController.text,
           'email': emailController.text,
           'address': addressController.text,
           'cnic': cnicController.text,
           'image': imageUrl,
+          'isDriver': false,
+          'driverStatus': 'requested',
+          'uid': userId,
         });
 
         // Data saved successfully
@@ -100,7 +107,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       throw e; // Rethrow the error to be caught in the main function
     }
   }
-
 
   TextEditingController emailController = TextEditingController();
 
@@ -154,18 +160,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 child: _imageFile == null
                                     ? Icon(
-                                  Icons.camera_alt,
-                                  size: 60,
-                                  color: Colors.grey[600],
-                                )
+                                        Icons.camera_alt,
+                                        size: 60,
+                                        color: Colors.grey[600],
+                                      )
                                     : ClipOval(
-                                  child: Image.file(
-                                    _imageFile!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                        child: Image.file(
+                                          _imageFile!,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                               ),
                             ),
                             Text(
@@ -197,7 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                 return null;
                               },
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -209,7 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     width: 1,
                                   ),
                                 ),
-                                hintText: 'Email :: talha@gmail.com',
+                                hintText: 'talha@gmail.com',
                               ),
                               controller: emailController,
                               keyboardType: TextInputType.emailAddress,
@@ -224,7 +231,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                 return null;
                               },
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -237,22 +245,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                                 hintText: 'Address',
-
                               ),
                               controller: addressController,
                               keyboardType: TextInputType.text,
-                                  validator: (address) {
-                                    int validationResult = validateAddress(address);
+                              validator: (address) {
+                                int validationResult = validateAddress(address);
 
-                                    if (validationResult == 1) {
-                                      return 'Address cannot be empty';
-                                    } else if (validationResult == 2) {
-                                      return 'Address must be at least 5 characters long';
-                                    }
+                                if (validationResult == 1) {
+                                  return 'Address cannot be empty';
+                                } else if (validationResult == 2) {
+                                  return 'Address must be at least 5 characters long';
+                                }
 
-                                    return null; // Return null to indicate the value is valid
-                                  },
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                                return null; // Return null to indicate the value is valid
+                              },
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -279,9 +287,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                 return null;
                               },
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
-                            const SizedBox(height: 50),
+                            const SizedBox(height: 40),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 11),
@@ -300,14 +309,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   CustomElevatedButton(
                                     text: "Save",
-                                    onPressed: (){
-                                      _saveDataToFirebase();
-                                      Navigator.push(context,MaterialPageRoute(builder: (context)=>LocationAccess()));
+                                    onPressed: () {
+                                      if (_formKey.currentState?.validate() ??
+                                          false) {
+                                        _saveDataToFirebase();
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                LocationAccess(),
+                                          ),(route)=>false
+                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) =>
+                                        //         LocationAccess(),
+                                        //   ),
+                                        // );
+                                      }
                                     },
                                     height: 46,
                                     width: 125,
                                     margin: const EdgeInsets.only(
                                       left: 10,
+
+                                    ),
+                                    buttonStyle: ElevatedButton.styleFrom(
+                                      foregroundColor: appTheme.teal500, // Background color
+                                      backgroundColor: Colors.white, // Text color
+                                    ),
+                                    buttonTextStyle: TextStyle(
+                                      color: Colors.white, // Text color
+                                      fontSize: 18,
+                                      // fontWeight: FontWeight.bold,
                                     ),
                                   )
                                 ],
@@ -326,6 +361,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
   onTapArrowLeft(BuildContext context) {
     Navigator.pop(context);
   }
-
 }
-

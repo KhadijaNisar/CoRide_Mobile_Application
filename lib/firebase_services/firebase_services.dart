@@ -6,6 +6,9 @@ class FirebaseAuthService {
 
   FirebaseAuthService() {}
 
+  User? getCurrentUser() {
+    return _auth.currentUser;
+  }
   Future<User?> signInWithEmailAndPassword(
       String email, String password) async {
     try {

@@ -2,10 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hitchify/UI/auth/loginWithPhone.dart';
+import 'package:hitchify/core/app_export.dart';
+import 'package:hitchify/home/driver_home.dart';
+import 'package:hitchify/home/home_screen.dart';
+
+import '../help&support/help_center.dart';
+import '../profile/driver_profile_screen.dart';
+import '../profile/passenger_profile.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class NavBar extends StatefulWidget {
+  final String userType; // Add userType parameter to the constructor
+  final String passenger; // Add userType parameter to the constructor
+
+  NavBar({required this.userType, required this.passenger});
+
   @override
   _NavBarState createState() => _NavBarState();
 }
@@ -54,7 +66,7 @@ class _NavBarState extends State<NavBar> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Color(0xff52c498),
+                color: appTheme.teal500,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),
@@ -99,10 +111,45 @@ class _NavBarState extends State<NavBar> {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () {
+                // Handle settings button press
+                if (widget.userType == 'passenger') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                } else if (widget.userType == 'driver') {
+                  // print("Type: $widget.userType");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => driverHome()),
+                  );
+                }
+                // context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {
                 // Handle settings button press
+                if (widget.userType == 'passenger') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(userType: widget.userType,)),
+                  );
+                } else if (widget.userType == 'driver') {
+                  // print("Type: $widget.userType");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DriverProfileScreen(userType: widget.userType)),
+                  );
+                }
+                // context, MaterialPageRoute(builder: (context) => EditProfileScreen()));
               },
             ),
             ListTile(
@@ -116,6 +163,10 @@ class _NavBarState extends State<NavBar> {
               leading: Icon(Icons.help),
               title: Text('Help and Support'),
               onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => helpCenter()),
+                );
                 // Handle help and support button press
               },
             ),
@@ -124,12 +175,19 @@ class _NavBarState extends State<NavBar> {
               title: Text('Log Out'),
               onTap: () {
                 _signOut();
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                     builder: (context) => LoginWithPhone(),
                   ),
+                    (route)=>false
                 );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => LoginWithPhone(),
+                //   ),
+                // );
               },
             ),
           ],
@@ -144,8 +202,11 @@ class _NavBarState extends State<NavBar> {
       String? userId = currentUser?.uid;
 
       // Fetch user data from Firestore
-      DocumentSnapshot<Map<String, dynamic>> userDoc =
-      await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(userId)
+          .get();
       userData = userDoc.data()!;
 
       setState(() {
@@ -153,8 +214,8 @@ class _NavBarState extends State<NavBar> {
         emailController.text = userData['email'] as String? ?? '';
         addressController.text = userData['address'] as String? ?? '';
         cnicController.text = userData['cnic'] as String? ?? '';
-        _imagePath = userData['imageUrl'] as String? ?? '';
-        _name = userData['name'] as String? ?? '';
+        _imagePath = userData['image'] as String? ?? '';
+        _name = userData['displayName'] as String? ?? '';
         print('$userData');
         print('image: $_imagePath');
         print('name: $nameController.text');

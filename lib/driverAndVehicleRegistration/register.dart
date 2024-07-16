@@ -1,15 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hitchify/create_ride.dart';
-import 'package:hitchify/home/home_screen.dart';
-import 'package:hitchify/profile.dart';
-import 'package:hitchify/cnic.dart';
-import 'package:hitchify/vehicle.dart';
-import 'package:hitchify/vehicle_info.dart';
+import 'package:hitchify/driverAndVehicleRegistration/profile.dart';
+import 'package:hitchify/driverAndVehicleRegistration/cnic.dart';
+import 'package:hitchify/driverAndVehicleRegistration/vehicle_info.dart';
+
+import '../home/driver_home.dart';
 
 class Register extends StatelessWidget {
-  const Register({super.key});
+  final String? selectedVehicle;
+
+  Register({Key? key, this.selectedVehicle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +63,8 @@ class Register extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: TextButton(
                 onPressed: () {
-                  // Navigator.pushNamed(context, '/vehicle');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CreateRideScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => driverHome()));
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -92,4 +92,24 @@ class Register extends StatelessWidget {
       ),
     );
   }
+  //
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Future<void> updateSelectedVehicle(String selectedVehicle) async {
+  //   try {
+  //     // Get the current user
+  //     User? currentUser = _auth.currentUser;
+  //     if (currentUser != null) {
+  //       // Update Firestore document with the selected vehicle
+  //       await _firestore.collection('users').doc(currentUser.uid).update({
+  //         'Vehicletype': selectedVehicle,
+  //       });
+  //     } else {
+  //       print('User is not logged in.');
+  //     }
+  //   } catch (e) {
+  //     print('Error updating selected vehicle: $e');
+  //   }
+  // }
 }

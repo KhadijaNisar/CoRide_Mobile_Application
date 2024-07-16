@@ -1,26 +1,28 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hitchify/UI/profile_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'package:hitchify/UI/splash_screen.dart';
 import 'package:hitchify/core/app_export.dart';
-// import 'package:hitchify/signin.dart';
 import 'package:hitchify/theme/theme_helper.dart';
-import 'package:hitchify/UI/auth/loginWithPhone.dart';
-import 'package:hitchify/home/locationpage.dart';
 import 'firebase_options.dart';
-
+import 'home/toggle_selection.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Ensure Flutter binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
   } catch (e) {
     print("Error initializing Firebase: $e");
-  } // ThemeHelper().changeTheme('primary');
+  }
 
-  runApp(const Pooling());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ModeToggle(),
+      child: const Pooling(),
+    ),
+  );
 }
 
 class Pooling extends StatelessWidget {
@@ -28,12 +30,14 @@ class Pooling extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme,
       home: SplashScreen(),
-      // home: ProfileScreen(),
     );
   }
 }
-

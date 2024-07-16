@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "632782991611",
-    "project_id": "poolingapp-409408",
-    "storage_bucket": "poolingapp-409408.appspot.com"
+    "project_number": "333028725651",
+    "project_id": "coride-167b1",
+    "storage_bucket": "coride-167b1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:632782991611:android:ba24e3c981de6cea0a405e",
+        "mobilesdk_app_id": "1:333028725651:android:a43fbc2052ab1775d34e66",
         "android_client_info": {
           "package_name": "com.example.coride"
         }
       },
       "oauth_client": [
         {
-          "client_id": "632782991611-48900b77u4to7ttsr11jpit1c7bkhtd5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.coride",
-            "certificate_hash": "726c0f0a0466f11dfb14af7a59761e1aea7d5e05"
-          }
-        },
-        {
-          "client_id": "632782991611-cc3kd5k0kfsbuu0hf88n95tmakqg82lu.apps.googleusercontent.com",
+          "client_id": "333028725651-lqfn821o2b2gn1d97g63t3jbq0csq868.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC1p2Qo9JlMs63Q4ZERukJ7LMps7vB50d4"
+          "current_key": "AIzaSyA2_7sCmy8DpkA2Tr_0YOttuqQ-8Qge42U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "632782991611-cc3kd5k0kfsbuu0hf88n95tmakqg82lu.apps.googleusercontent.com",
+              "client_id": "333028725651-lqfn821o2b2gn1d97g63t3jbq0csq868.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -44,64 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:632782991611:android:cb91da64ea67653d0a405e",
-        "android_client_info": {
-          "package_name": "com.example.poolingapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "632782991611-7oeckl1pd2m05a8hguhgn5ta40impu4q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.poolingapp",
-            "certificate_hash": "726c0f0a0466f11dfb14af7a59761e1aea7d5e05"
-          }
-        },
-        {
-          "client_id": "632782991611-cc3kd5k0kfsbuu0hf88n95tmakqg82lu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC1p2Qo9JlMs63Q4ZERukJ7LMps7vB50d4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "632782991611-cc3kd5k0kfsbuu0hf88n95tmakqg82lu.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:632782991611:android:160c695cd8a308610a405e",
+        "mobilesdk_app_id": "1:333028725651:android:4951ae3e1f03e571d34e66",
         "android_client_info": {
           "package_name": "com.hitchify.hitchify"
         }
       },
       "oauth_client": [
         {
-          "client_id": "632782991611-cc3kd5k0kfsbuu0hf88n95tmakqg82lu.apps.googleusercontent.com",
+          "client_id": "333028725651-lqfn821o2b2gn1d97g63t3jbq0csq868.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC1p2Qo9JlMs63Q4ZERukJ7LMps7vB50d4"
+          "current_key": "AIzaSyA2_7sCmy8DpkA2Tr_0YOttuqQ-8Qge42U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "632782991611-cc3kd5k0kfsbuu0hf88n95tmakqg82lu.apps.googleusercontent.com",
+              "client_id": "333028725651-lqfn821o2b2gn1d97g63t3jbq0csq868.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

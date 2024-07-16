@@ -218,7 +218,7 @@ class PrimaryColors {
   Color get red500 => Color(0XFFF44336);
 
   // Teal
-  Color get teal100 => Color(0XFFB9E5D1);
+  Color get teal100 => Color(0XFFc);
   Color get teal200 => Color(0XFF8AD4B5);
   Color get teal50 => Color(0XFFE2F5ED);
   Color get teal500 => Color(0XFF08B783);

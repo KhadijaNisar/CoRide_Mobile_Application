@@ -87,7 +87,7 @@ class CustomImageView extends StatelessWidget {
   Widget _buildImageView() {
     if (imagePath != null) {
       switch (imagePath!.imageType) {
-        case ImageType.svg:
+        case ImageType.png:
           return Container(
             height: height,
             width: width,
@@ -148,8 +148,8 @@ extension ImageTypeExtension on String {
   ImageType get imageType {
     if (this.startsWith('http') || this.startsWith('https')) {
       return ImageType.network;
-    } else if (this.endsWith('.svg')) {
-      return ImageType.svg;
+    } else if (this.endsWith('.png')) {
+      return ImageType.png;
     } else if (this.startsWith('file://')) {
       return ImageType.file;
     } else {

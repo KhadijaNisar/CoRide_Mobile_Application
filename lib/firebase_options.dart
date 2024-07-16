@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBnEN_M-uvnHhiRqSQewZBU5iTV2e9PxfU',
-    appId: '1:632782991611:web:dae00d22b00c08a80a405e',
-    messagingSenderId: '632782991611',
-    projectId: 'poolingapp-409408',
-    authDomain: 'poolingapp-409408.firebaseapp.com',
-    storageBucket: 'poolingapp-409408.appspot.com',
+    apiKey: 'AIzaSyAifh4qT_8TBoKwvuNDjD_muBbSsBBJLnA',
+    appId: '1:333028725651:web:c109e465a9ea87a1d34e66',
+    messagingSenderId: '333028725651',
+    projectId: 'coride-167b1',
+    authDomain: 'coride-167b1.firebaseapp.com',
+    storageBucket: 'coride-167b1.appspot.com',
+    measurementId: 'G-79SGMRHTTT',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC1p2Qo9JlMs63Q4ZERukJ7LMps7vB50d4',
-    appId: '1:632782991611:android:160c695cd8a308610a405e',
-    messagingSenderId: '632782991611',
-    projectId: 'poolingapp-409408',
-    storageBucket: 'poolingapp-409408.appspot.com',
+    apiKey: 'AIzaSyA2_7sCmy8DpkA2Tr_0YOttuqQ-8Qge42U',
+    appId: '1:333028725651:android:4951ae3e1f03e571d34e66',
+    messagingSenderId: '333028725651',
+    projectId: 'coride-167b1',
+    storageBucket: 'coride-167b1.appspot.com',
   );
 }

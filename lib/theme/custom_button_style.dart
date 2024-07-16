@@ -5,7 +5,8 @@ import 'package:hitchify/theme/theme_helper.dart';
 class CustomButtonStyles {
   // Filled button style
   static ButtonStyle get fillGray => ElevatedButton.styleFrom(
-        backgroundColor: appTheme.gray200,
+        // backgroundColor: appTheme.gray200,
+    backgroundColor: appTheme.teal500,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(

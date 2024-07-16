@@ -19,10 +19,10 @@ class _DatePickerModalState extends State<DatePickerModal> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-                primary: Colors.green,
-                onPrimary: Colors.white,
-                surface: Colors.white,
-                onSurface: Colors.black,
+              primary: Colors.green,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black,
             ),
           ),
           child: child!,
@@ -60,7 +60,7 @@ class _DatePickerModalState extends State<DatePickerModal> {
             onPressed: () => _selectDate(context),
             child: Text('Choose Date', style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(
-              primary: Colors.green,
+              backgroundColor: Colors.green,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),

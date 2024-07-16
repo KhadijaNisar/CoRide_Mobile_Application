@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hitchify/home/home_screen.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:hitchify/UI/auth/verifyPhone.dart';
 import 'package:hitchify/UI/profile_screen.dart';
 import 'package:hitchify/core/app_export.dart';
-import 'package:hitchify/widgets/custom_elevated_button.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_image_view.dart';
 import '../../widgets/custom_outlined_button.dart';
@@ -21,6 +19,7 @@ class LoginWithPhone extends StatefulWidget {
 }
 
 class _LoginWithPhoneState extends State<LoginWithPhone> {
+  bool _isLoading = false;
   TextEditingController phoneNumberController = TextEditingController();
   final auth = FirebaseAuth.instance;
   GoogleSignIn googleSignIn = GoogleSignIn(
@@ -54,7 +53,8 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
       User? user = authResult.user;
 
       print("User signed in: ${user!.displayName}");
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>ProfileScreen()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ProfileScreen()));
       return user;
     } catch (error) {
       // Handle errors during the sign-in process
@@ -67,122 +67,151 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(title: 'Back', context: context),
-      body: Column(
-        children: [
-          Text("Get Started", style: theme.textTheme.headlineSmall),
-          const SizedBox(height: 50),
-          Padding(
+      // appBar: CustomAppBar(title: 'Back', context: context),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 70,
+            ),
+            Text("Get Started", style: theme.textTheme.headlineSmall),
+            const SizedBox(height: 50),
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: IntlPhoneField(
                 keyboardType: TextInputType.phone,
                 controller: phoneNumberController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Phone Number',
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(),
+                    borderSide: BorderSide(color: Color(0xFF008955)),
                   ),
                 ),
                 initialCountryCode: 'PK',
-              )
-              //
               ),
-          const SizedBox(height: 50),
-          Container(
-            width: 350,
-            height: 50,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton(
-                child: Text("Next",style: TextStyle(color: Colors.white,fontSize: 16),),
-                style : ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF008955)),
-                ),
-                onPressed: () {
-                  String phoneNumber = '+92${phoneNumberController.text}';
+              //
+            ),
+            const SizedBox(height: 50),
+            Container(
+              width: 350,
+              height: 50,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: ElevatedButton(
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        )
+                      : Text(
+                          "Next",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xFF008955)),
+                  ),
+                  onPressed: () {
+                    String phoneNumber = '+92${phoneNumberController.text}';
 
-                  if (phoneNumber.isNotEmpty) {
-                    auth.verifyPhoneNumber(
-                      phoneNumber: phoneNumber,
-                      verificationCompleted: (_) {},
-                      verificationFailed: (e) {
-                        print("Verification failed: ${e.message}");
-                        // Handle verification failure
-                      },
-                      codeSent: (String verificationId, int? token) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VerifyPhone(
-                              verificationId: verificationId,
+                    if (phoneNumber.isNotEmpty) {
+                      setState(() {
+                        _isLoading = true; // Set loading state to true
+                      });
+
+                      auth.verifyPhoneNumber(
+                        phoneNumber: phoneNumber,
+                        verificationCompleted: (_) {},
+                        verificationFailed: (e) {
+                          setState(() {
+                            _isLoading = false; // Set loading state to false
+                          });
+                          print("Verification failed: ${e.message}");
+                          // Handle verification failure
+                        },
+                        codeSent: (String verificationId, int? token) {
+                          setState(() {
+                            _isLoading = false; // Set loading state to false
+                          });
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VerifyPhone(
+                                phoneNumber: phoneNumber,
+                                verificationId: verificationId,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      codeAutoRetrievalTimeout: (e) {
-                        // Handle auto-retrieval timeout
-                      },
-                    );
-                  } else {
-                    // Handle empty phone number case
-                    print("Please enter a valid phone number");
-                  }
-                },
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (e) {
+                          setState(() {
+                            _isLoading = false; // Set loading state to false
+                          });
+                          // Handle auto-retrieval timeout
+                        },
+                      );
+                    } else {
+                      // Handle empty phone number case
+                      print("Please enter a valid phone number");
+                    }
+                  },
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 30),
-          const Text(
-              "By signing up, you agree to the Terms of\n         service and Privacy policy."),
-          const SizedBox(height: 50),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 12),
-                    child: SizedBox(
-                        height: 10,
-                        width: 156,
-                        child: Divider(color: appTheme.gray400))),
-                Padding(
-                    padding: EdgeInsets.only(left: 7),
-                    child:
-                        Text("or", style: CustomTextStyles.titleMediumGray400)),
-                Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 12),
-                    child: SizedBox(
-                        height: 10,
-                        width: 156,
-                        child: Divider(color: appTheme.gray400, indent: 7)))
-              ]),
-          SizedBox(
-            height: 7,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 11),
-            child: CustomOutlinedButton(
-                height: 48,
-                text: "Sign up with Gmail",
-                onPressed: () async {
-                  User? user = await _handleSignIn();
-                  if (user != null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProfileScreen()));
-                  }
-                },
-                leftIcon: Container(
-                    margin: const EdgeInsets.only(right: 11),
-                    child: CustomImageView(
-                        imagePath: ImageConstant.imgGmail,
-                        height: 12,
-                        width: 16)),
-                buttonStyle: CustomButtonStyles.outlineBlueGray,
-                buttonTextStyle: theme.textTheme.titleMedium!),
-          ),
-        ],
+            const SizedBox(height: 30),
+            const Text(
+                "By signing up, you agree to the Terms of\n         service and Privacy policy."),
+            const SizedBox(height: 50),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 12),
+                      child: SizedBox(
+                          height: 10,
+                          width: 156,
+                          child: Divider(color: appTheme.gray400))),
+                  Padding(
+                      padding: EdgeInsets.only(left: 7),
+                      child: Text("or",
+                          style: CustomTextStyles.titleMediumGray400)),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 12),
+                      child: SizedBox(
+                          height: 10,
+                          width: 156,
+                          child: Divider(color: appTheme.gray400, indent: 7)))
+                ]),
+            SizedBox(
+              height: 7,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 11),
+              child: CustomOutlinedButton(
+                  height: 48,
+                  text: "Sign up with Gmail",
+                  onPressed: () async {
+                    User? user = await _handleSignIn();
+                    if (user != null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()));
+                    }
+                  },
+                  leftIcon: Container(
+                      margin: const EdgeInsets.only(right: 11),
+                      child: CustomImageView(
+                          imagePath: ImageConstant.imgGmail,
+                          height: 12,
+                          width: 16)),
+                  buttonStyle: CustomButtonStyles.outlineBlueGray,
+                  buttonTextStyle: theme.textTheme.titleMedium!),
+            ),
+          ],
+        ),
       ),
     );
   }
