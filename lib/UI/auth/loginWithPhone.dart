@@ -88,41 +88,47 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
               //
               ),
           const SizedBox(height: 50),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: CustomElevatedButton(
-              height: 50,
-              text: "Next",
-              onPressed: () {
-                String phoneNumber = '+92${phoneNumberController.text}';
+          Container(
+            width: 350,
+            height: 50,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                child: Text("Next",style: TextStyle(color: Colors.white,fontSize: 16),),
+                style : ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF008955)),
+                ),
+                onPressed: () {
+                  String phoneNumber = '+92${phoneNumberController.text}';
 
-                if (phoneNumber.isNotEmpty) {
-                  auth.verifyPhoneNumber(
-                    phoneNumber: phoneNumber,
-                    verificationCompleted: (_) {},
-                    verificationFailed: (e) {
-                      print("Verification failed: ${e.message}");
-                      // Handle verification failure
-                    },
-                    codeSent: (String verificationId, int? token) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VerifyPhone(
-                            verificationId: verificationId,
+                  if (phoneNumber.isNotEmpty) {
+                    auth.verifyPhoneNumber(
+                      phoneNumber: phoneNumber,
+                      verificationCompleted: (_) {},
+                      verificationFailed: (e) {
+                        print("Verification failed: ${e.message}");
+                        // Handle verification failure
+                      },
+                      codeSent: (String verificationId, int? token) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VerifyPhone(
+                              verificationId: verificationId,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    codeAutoRetrievalTimeout: (e) {
-                      // Handle auto-retrieval timeout
-                    },
-                  );
-                } else {
-                  // Handle empty phone number case
-                  print("Please enter a valid phone number");
-                }
-              },
+                        );
+                      },
+                      codeAutoRetrievalTimeout: (e) {
+                        // Handle auto-retrieval timeout
+                      },
+                    );
+                  } else {
+                    // Handle empty phone number case
+                    print("Please enter a valid phone number");
+                  }
+                },
+              ),
             ),
           ),
           const SizedBox(height: 30),

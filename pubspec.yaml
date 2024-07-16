@@ -63,6 +63,8 @@ dependencies:
   firebase_app_check: ^0.2.1+13
   html: ^0.15.4
   http: ^1.2.0
+  firebase_database: ^10.4.6
+  geocoding: ^2.2.0
 #  mapbox_gl: ^0.16.0
 
 dev_dependencies:

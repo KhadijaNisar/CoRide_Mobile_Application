@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:hitchify/create_ride.dart';
 import 'package:hitchify/home/home_screen.dart';
 import 'package:hitchify/profile.dart';
 import 'package:hitchify/cnic.dart';
+import 'package:hitchify/vehicle.dart';
 import 'package:hitchify/vehicle_info.dart';
 
 class Register extends StatelessWidget {
@@ -26,7 +28,8 @@ class Register extends StatelessWidget {
                 trailing: Icon(Icons.arrow_forward_ios_outlined),
                 onTap: () {
                   // Navigator.pushNamed(context, '/profile');
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>Profile()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Profile()));
                 },
               ),
             ),
@@ -36,7 +39,8 @@ class Register extends StatelessWidget {
                 title: Text('CNIC'),
                 trailing: Icon(Icons.arrow_forward_ios_outlined),
                 onTap: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>CNIC()));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => CNIC()));
                 },
               ),
             ),
@@ -47,7 +51,8 @@ class Register extends StatelessWidget {
                 trailing: Icon(Icons.arrow_forward_ios_outlined),
                 onTap: () {
                   // Navigator.pushNamed(context, '/info');
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>VehicleInfo()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => VehicleForm()));
                 },
               ),
             ),
@@ -56,7 +61,10 @@ class Register extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   // Navigator.pushNamed(context, '/vehicle');
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>HomeScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateRideScreen()));
                 },
                 child: Container(
                   decoration: BoxDecoration(

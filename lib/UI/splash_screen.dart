@@ -27,7 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
               () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(),
+                // builder: (context) => HomeScreen(),
+                builder: (context) => ProfileScreen(),
               )));
     } else {
       Timer(
@@ -35,8 +36,8 @@ class _SplashScreenState extends State<SplashScreen> {
               () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                // builder: (context) => LoginWithPhone(),
-                builder: (context) => HomeScreen(),
+                builder: (context) => ProfileScreen(),
+                // builder: (context) => HomeScreen(),
               )));
     }
   }

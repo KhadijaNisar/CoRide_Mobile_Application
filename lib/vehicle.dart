@@ -9,10 +9,7 @@ class Vehicle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // title: Center(child: Text('Choose your vehicle')),
-          // backgroundColor: Color.fromRGBO(82, 192, 152, 10),
-          ),
+      appBar: AppBar(),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: ListView(
@@ -38,9 +35,9 @@ class Vehicle extends StatelessWidget {
                 trailing: Icon(Icons.arrow_forward_ios_outlined),
                 onTap: () {
                   // Navigator.pushNamed(context, '/register');
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>Register()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Register()));
                 },
-
               ),
             ),
             Card(
@@ -51,7 +48,8 @@ class Vehicle extends StatelessWidget {
                 trailing: Icon(Icons.arrow_forward_ios_outlined),
                 onTap: () {
                   // Navigator.pushNamed(context, '/register');
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>Register()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Register()));
                 },
               ),
             ),
@@ -63,7 +61,8 @@ class Vehicle extends StatelessWidget {
                 trailing: Icon(Icons.arrow_forward_ios_outlined),
                 onTap: () {
                   // Navigator.pushNamed(context, '/register');
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>Register()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Register()));
                 },
               ),
             ),

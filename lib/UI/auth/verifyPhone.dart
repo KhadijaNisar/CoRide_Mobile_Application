@@ -55,24 +55,31 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                   ]),
                   textAlign: TextAlign.left),
               Spacer(flex: 52),
-              CustomElevatedButton(
-                  onPressed: () async {
-                    final credential = PhoneAuthProvider.credential(
-                        verificationId: widget.verificationId,
-                        smsCode: smsCodeController.text.toString());
-                    try {
-                      await auth.signInWithCredential(credential);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),
-                        ),
-                      );
-                    } catch (e) {
-                      setState(() {});
-                    }
-                  },
-                  text: " Verify"),
+              Container(
+                width: 350,
+                height: 50,
+                child: ElevatedButton(
+                    child: Text("Verify",style: TextStyle(color: Colors.white,fontSize: 16),),
+                    style : ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF008955)),
+                    ),
+                    onPressed: () async {
+                      final credential = PhoneAuthProvider.credential(
+                          verificationId: widget.verificationId,
+                          smsCode: smsCodeController.text.toString());
+                      try {
+                        await auth.signInWithCredential(credential);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(),
+                          ),
+                        );
+                      } catch (e) {
+                        setState(() {});
+                      }
+                    },),
+              ),
               Spacer(flex: 47)
             ])));
   }

@@ -5,6 +5,7 @@ import 'package:hitchify/core/app_export.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:hitchify/validations.dart';
 import 'package:hitchify/widgets/custom_elevated_button.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -100,6 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+
   TextEditingController emailController = TextEditingController();
 
   TextEditingController phoneNumberController = TextEditingController();
@@ -186,6 +188,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 hintText: 'Full Name',
                               ),
+                              validator: (name) {
+                                int validationResult = validateName(name);
+
+                                if (validationResult == 1) {
+                                  return "Please enter a valid name";
+                                }
+
+                                return null;
+                              },
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -201,6 +213,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               controller: emailController,
                               keyboardType: TextInputType.emailAddress,
+                              validator: (email) {
+                                int validationResult = validateEmail(email);
+
+                                if (validationResult == 1) {
+                                  return "Please enter an email address";
+                                } else if (validationResult == 2) {
+                                  return "Please enter a valid email address";
+                                }
+
+                                return null;
+                              },
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -213,9 +237,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                                 hintText: 'Address',
+
                               ),
                               controller: addressController,
                               keyboardType: TextInputType.text,
+                                  validator: (address) {
+                                    int validationResult = validateAddress(address);
+
+                                    if (validationResult == 1) {
+                                      return 'Address cannot be empty';
+                                    } else if (validationResult == 2) {
+                                      return 'Address must be at least 5 characters long';
+                                    }
+
+                                    return null; // Return null to indicate the value is valid
+                                  },
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -231,6 +268,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               controller: cnicController,
                               keyboardType: TextInputType.number,
+                              validator: (cnic) {
+                                int validationResult = validateCNIC(cnic);
+
+                                if (validationResult == 1) {
+                                  return "Please enter a CNIC";
+                                } else if (validationResult == 2) {
+                                  return "Please enter a valid CNIC (e.g., 1234567890123)";
+                                }
+
+                                return null;
+                              },
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                             ),
                             const SizedBox(height: 50),
                             Padding(
